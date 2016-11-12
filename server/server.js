@@ -222,9 +222,9 @@ console.log('express server ready.');
 app.listen(port, onError);
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+  // if (error.syscall !== 'listen') {
+  //   throw error;
+  // }
 
   var bind = typeof port === 'string'
     ? 'Pipe ' + port

@@ -215,7 +215,8 @@ app.use('/', function (req, res) {
     res.sendFile(path.resolve('client/index.html'));
 });
 
-var port = 3000;
+// aktualny port
+var port = 3001;
 
 console.log('express server ready.');
 app.listen(port, function(error) {

@@ -224,9 +224,9 @@ app.set('port', port);
 
 console.log('express server ready.');
 
-server.listen(port, process.env.IP);
-server.on('error', onError);
-server.on('listening', onListening);
+app.listen(port, process.env.IP);
+app.on('error', onError);
+app.on('listening', onListening);
 
 
 

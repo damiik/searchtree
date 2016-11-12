@@ -1,3 +1,6 @@
+// Zbudowane w oparciu o projekt react-doto-list-start  (https://www.youtube.com/watch?v=CAZZN1gOjoI&nohtml5=False)
+
+
 //mongod --dbpath c:/mongodb/data/webdev
 //cd SourceCode\Javascript\react\react-search-tree
 //npm run serve

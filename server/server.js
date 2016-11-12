@@ -219,10 +219,7 @@ app.use('/', function (req, res) {
 var port = 3001;
 
 console.log('express server ready.');
-app.listen(port, onError(err));
-
-function onError(error) {
-
+app.listen(port, function (error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -244,4 +241,7 @@ function onError(error) {
     default:
       throw error;
   }
-}
+});
+
+
+

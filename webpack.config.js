@@ -4,8 +4,13 @@ var browserSyncPlugin = require('browser-sync-webpack-plugin')
 
 module.exports = {
 
-	devtool: 'inline-source-map',  //????
-	entry: ['./client/client.js', 'webpack-hot-middleware/client'],
+	//devtool: 'inline-source-map',  //????
+	//context: path.join(__dirname, 'js'),
+	entry: [
+
+		'./client/client.js',
+		'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
+	],
 	output: {
 		path: path.resolve("./dist"),
 		// path: path.join(__dirname, '/dist'),
@@ -16,30 +21,30 @@ module.exports = {
 
 		loaders: [
           //{test: /\.js?$/, loader: 'babel', exclude: /node_modules/}
-		    {test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/, query: { presets: ['react', 'es2015', 'react-hmre']}},
-		    {test: /\.css$/, loaders:[
+		    {test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/, query: { presets: ['react', 'es2015', 'react-hmre']}}
+		  //   {test: /\.css$/, loaders:[
 
-						         'style?sourceMap',
-						         'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
-				]
-            }
+				// 		         'style?sourceMap',
+				// 		         'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+				// ]
+           // }
 		]
 	},
 
-	resolve: { //???
-		extensions: ['', '.js']
-	},
+	// resolve: { //???
+	// 	extensions: ['', '.js']
+	// },
 
-	devServer: { //???
+	// devServer: { //???
 
-		contentBase: './dist',
-		hot: true
-	},
+	// 	contentBase: './dist',
+	// 	hot: true
+	// },
 
 	plugins: [
 
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
+		new webpack.HotModuleReplacementPlugin(),                //webpack HMR with webpack-hot-middleware & expres
 		new webpack.NoErrorsPlugin()
 
 		// browse to http://localhost:3000/ during development

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
 
-    "serve": "nodemon server/server.js --ignore components",
+    "serve": "nodemon app.js --ignore components",
     "postinstall": "webpack -p --config webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

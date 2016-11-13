@@ -166,12 +166,12 @@
 
 
 // DEPLOY:
-
+// npm run postinstall
 // git add .
 // git commit --amend
 // git push -f liveServer master
-// npm run postinstall
-// node server/server.js
+
+
 
 
 var express = require('express');
@@ -184,8 +184,8 @@ var notes = require('./routes/notes');
 
 var app = express();
 
-
-mongoose.connect('mongodb://localhost/search-tree', function(err) {
+//mongoose.connect('mongodb://localhost/search-tree', function(err) {
+mongoose.connect('damii:freedom86@ds145395.mlab.com:45395/search-tree', function(err) {
 
     if( err ) console.log('MongoDB connection error', err);
     else {
@@ -212,7 +212,7 @@ if(process.env.NODE_ENV !== 'production') {
   var webpack = require('webpack');
   var config = require('../webpack.config.js');
 
-  var compiler = webpack( config );
+  var compiler = webpack( config ); // run webpack
 
   // app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
   // app.use(webpackHotMiddleware(compiler));
@@ -220,9 +220,10 @@ if(process.env.NODE_ENV !== 'production') {
 
   app.use(webpackDevMiddleware(compiler, {
 
+    noInfo: true,
+    publicPath: config.output.publicPath,
     hot: true,
     filename: 'bundle.js',
-    publicPath: '/',
     stats: {
 
       colors: true,
@@ -265,7 +266,7 @@ var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 
-console.log('express server ready.');
+console.log('express server is ready.');
 
 app.listen(port, process.env.IP);
 app.on('error', onError);
@@ -352,3 +353,6 @@ function normalizePort(val) {
 
   return false;
 }
+
+
+module.exports = app;

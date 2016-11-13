@@ -174,7 +174,7 @@ var notes = require('./routes/notes');
 
 
 // (part 4 updates)
-var config = require('../webpack.config.js');
+var config = require('../webpack.prod.config.js');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
@@ -191,13 +191,15 @@ mongoose.connect('mongodb://localhost/search-tree', function(err) {
     }
 });
 
-// (part 4 updates)
-var compiler = webpack( config );
-app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}));
-app.use(webpackHotMiddleware(compiler));
-
 app.use(express.static('./dist'));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+
+// (part 4 updates)
+var compiler = webpack( config );
+app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
+app.use(webpackHotMiddleware(compiler));
+
+
 
 // Provides req.body and req.files with the submitted data for subsequent middle-ware to use.
 // The registration form uses the object notation user[name], which translates to req.body.user.name

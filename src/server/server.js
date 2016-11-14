@@ -1,5 +1,3 @@
-'use strict';
-
 // Zbudowane w oparciu o projekt react-doto-list-start  (https://www.youtube.com/watch?v=CAZZN1gOjoI&nohtml5=False)
 
 
@@ -27,14 +25,16 @@
 // * server.js
 // app.use(express.static(path.join(__dirname, 'bower_components')));
 // * client/index.html
-// <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
-// ...
-// <script src="jquery/dist/jquery.js"></script>
-// <script src="bootstrap/dist/js/bootstrap.js"></script>
+	  // <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+	  // ...
+	  // <script src="jquery/dist/jquery.js"></script>
+	  // <script src="bootstrap/dist/js/bootstrap.js"></script>
 
 
 // npm i -D browser-sync
 // npm i -D browser-sync-webpack-plugin
+
+
 
 
 // zainstalować bootstrap 4 wraz z obsługoą dynamicznego scss ->https://github.com/shakacode/bootstrap-loader
@@ -172,22 +172,26 @@
 // git push -f liveServer master
 
 
-var express = require('express');
+
+
+let express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var methodOverride = require("method-override");
+var methodOverride  = require("method-override");
 var mongoose = require('mongoose');
 var notes = require('./routes/notes');
+
 
 var app = express();
 
 //mongoose.connect('mongodb://localhost/search-tree', function(err) {
-mongoose.connect('damii:freedom86@ds145395.mlab.com:45395/search-tree', function (err) {
+mongoose.connect('damii:freedom86@ds145395.mlab.com:45395/search-tree', function(err) {
 
-  if (err) console.log('MongoDB connection error', err);else {
+    if( err ) console.log('MongoDB connection error', err);
+    else {
 
-    console.log('MongoDB connection successful');
-  }
+        console.log('MongoDB connection successful');
+    }
 });
 
 app.use(express.static('./dist'));
@@ -195,19 +199,20 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 //app.use(express.static(__dirname))
 
 
+
 // (part 4 updates)
 
 // webpack HMR with webpack-hot-middleware & expres
 // using webpack-dev-server and middleware in development environment
 // http://andrewhfarmer.com/webpack-hmr-tutorial/
-if (process.env.NODE_ENV !== 'production') {
+if(process.env.NODE_ENV !== 'production') {
 
   var webpackDevMiddleware = require('webpack-dev-middleware');
   var webpackHotMiddleware = require('webpack-hot-middleware');
   var webpack = require('webpack');
   var config = require('../webpack.config.js');
 
-  var compiler = webpack(config); // run webpack
+  var compiler = webpack( config ); // run webpack
 
   // app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
   // app.use(webpackHotMiddleware(compiler));
@@ -221,33 +226,37 @@ if (process.env.NODE_ENV !== 'production') {
     filename: 'bundle.js',
     stats: {
 
-      colors: true
+      colors: true,
     },
-    historyApiFallback: true
+    historyApiFallback: true,
   }));
 
   app.use(webpackHotMiddleware(compiler, {
 
     log: console.log,
     path: '/__webpack_hmr',
-    heartbeat: 10 * 1000
+    heartbeat: 10 * 1000,
   }));
 }
+
 
 // Provides req.body and req.files with the submitted data for subsequent middle-ware to use.
 // The registration form uses the object notation user[name], which translates to req.body.user.name
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+app.use(express.static(__dirname))
+
+
 
 // Allows you to fake req.method for browsers that can’t use the proper method. Depends on bodyParser.
 app.use(methodOverride());
+
 
 app.use('/notes', notes);
 
 app.use('/', function (req, res) {
 
-  res.sendFile(path.resolve('./client/index.html'));
+    res.sendFile(path.resolve('./client/index.html'));
 });
 
 // aktualny port
@@ -256,11 +265,14 @@ app.use('/', function (req, res) {
 var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
+
 console.log('express server is ready.');
 
 app.listen(port, process.env.IP);
 app.on('error', onError);
 app.on('listening', onListening);
+
+
 
 // app.listen(port, function (error) {
 
@@ -288,12 +300,15 @@ app.on('listening', onListening);
 // });
 
 
+
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -316,9 +331,12 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -335,5 +353,6 @@ function normalizePort(val) {
 
   return false;
 }
+
 
 module.exports = app;

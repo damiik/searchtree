@@ -184,8 +184,8 @@ var notes = require('./routes/notes');
 
 var app = express();
 
-//mongoose.connect('mongodb://localhost/search-tree', function(err) {
-mongoose.connect('damii:freedom86@ds145395.mlab.com:45395/search-tree', function(err) {
+
+mongoose.connect('uuuuuu:pppppppppp@ds145395.mlab.com:45395/search-tree', function(err) {
 
     if( err ) console.log('MongoDB connection error', err);
     else {

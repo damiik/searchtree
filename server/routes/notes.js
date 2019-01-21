@@ -1,13 +1,12 @@
-'use strict';
-
 var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
 var Note = require('../models/note.js');
 
+
 /* GET /Notes listing. */
-router.get('/', function (req, res, next) {
+router.get('/', function(req, res, next) {
 
   Note.find(function (err, notes) {
 
@@ -17,19 +16,21 @@ router.get('/', function (req, res, next) {
   });
 });
 
+
 /* POST /Notes */
-router.post('/', function (req, res, next) {
+router.post('/', function(req, res, next) {
 
   Note.create(req.body, function (err, post) {
 
-    console.log('crated post:' + JSON.stringify(post, null, 2));
+  	console.log('crated post:' + JSON.stringify(post, null, 2))
     if (err) return next(err);
     res.json(post);
   });
 });
 
+
 /* GET /Notes/id */
-router.get('/:id', function (req, res, next) {
+router.get('/:id', function(req, res, next) {
 
   Note.findById(req.params.id, function (err, post) {
 
@@ -38,22 +39,24 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
-/* PUT /Notes/:id */
-router.put('/', function (req, res, next) {
 
-  console.log('put:' + req.body._id + ', update:' + JSON.stringify(req.body.updateObject, null, 2));
+/* PUT /Notes/:id */
+router.put('/', function(req, res, next) {
+
+  console.log('put:' + req.body._id + ', update:'+ JSON.stringify(req.body.updateObject, null, 2));
   //Note.findByIdAndUpdate(req.body._id, {note:req.body.text}, function (err, post) {
   Note.findByIdAndUpdate(req.body._id, req.body.updateObject, function (err, post) {
 
     if (err) return next(err);
 
-    console.log('put, no error');
+      console.log('put, no error');
     res.json(post);
   });
 });
 
+
 /* DELETE /Notes/:id */
-router.delete('/', function (req, res, next) {
+router.delete('/', function(req, res, next) {
 
   Note.findByIdAndRemove(req.body._id, function (err, post) {
 
@@ -62,5 +65,7 @@ router.delete('/', function (req, res, next) {
     res.json(post);
   });
 });
+
+
 
 module.exports = router;

@@ -61,7 +61,7 @@ class MainItem extends Component {
               id = "mainItem"
               type = "text" 
               ref = {node => {this.text_input = node}}
-              placeholder = "Type in your Search"
+              placeholder = "Type in your Searchzz"
               value = {this.props.item.text}
               onChange = {this.handleTextChange.bind(this)}
             />

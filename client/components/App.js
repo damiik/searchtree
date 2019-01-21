@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import SearchInput from './SearchInput'
 import SearchList from './SearchList'
-import SearchItem from './SearchItem'
 import MainItem from './MainItem'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -54,7 +53,7 @@ class App extends Component {
 
     return (
       <div className = "container">
-        <h1>Search Tree *Super Asia* M.E.R.N. example</h1>
+        <h1>Search Tree *Super Asia ->>  M.E.R.N. example</h1>
 
         <MainItem
           item = { this.props.mainItem } 

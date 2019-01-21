@@ -1,14 +1,12 @@
 {
-  "script": "app.js",
+  "script": "server/server.js",
 
   "ignore": [
 
-  	"./server",
-  	"components"
+  	"server"
   ],
   "verbose": true,
     "events": {
     "start": "npm run build-server"
   }
-
 }

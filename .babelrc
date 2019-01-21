@@ -1,1 +1,6 @@
-{ presets: ['react', 'latest', 'react-hmre']}
+
+{
+    "presets": [
+      "@babel/preset-env",  "@babel/preset-react"
+    ]
+}

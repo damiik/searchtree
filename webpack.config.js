@@ -1,51 +1,97 @@
 var path = require('path')
-var webpack = require('webpack')
+var webpack = require('webpack');
+const devMode = process.env.NODE_ENV !== 'production';
+
 var browserSyncPlugin = require('browser-sync-webpack-plugin')
+
+
+
 
 module.exports = {
 
 	//devtool: 'inline-source-map',  //????
 	//context: path.join(__dirname, 'js'),
-	entry: [
+	mode:'development',
 
-		'./client/client.js',
-		'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
-	],
+    entry: ["@babel/polyfill", './client/client.jsx'], //an entry point for the application
 	output: {
-		path: path.resolve("./dist"),
-		// path: path.join(__dirname, '/dist'),
-		filename: 'bundle.js',
+		/*path: path.resolve("./dist"),*/
+		// path: __dirname + '/dist',
+		path: path.resolve(__dirname, 'dist'),
+		filename: 'bundle.js', /* budle.js is created dynamically!!! */
 		publicPath: '/'
 	},
-	module: {
 
-		loaders: [
-          //{test: /\.js?$/, loader: 'babel', exclude: /node_modules/}
-		    {test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/, query: { presets: ['react', 'es2015', 'react-hmre']}}
-		  //   {test: /\.css$/, loaders:[
+	devServer: {
 
-				// 		         'style?sourceMap',
-				// 		         'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
-				// ]
-           // }
-		]
+	  contentBase:  path.resolve(__dirname, 'dist') //'./dist'
+	},
+	
+	resolve: {
+
+		extensions: ['*', '.js', '.jsx']
 	},
 
-	// resolve: { //???
-	// 	extensions: ['', '.js']
-	// },
+    module: {
 
-	// devServer: { //???
+        rules: [
 
-	// 	contentBase: './dist',
-	// 	hot: true
-	// },
+            {
+                // Look for JavaScript files and apply the babel-loader
+                // excluding the './node_modules' directory. It uses the
+                // configuration in `.babelrc`
+                test:/\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+
+                    loader: 'babel-loader',  // opiton for  --module-bind js=babel-loader in package.json
+                    options: {
+                        
+                      presets: ['@babel/preset-env'] //"presets": ["@babel/preset-env", "@babel/preset-react"]
+                    }
+                }
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                  'file-loader'
+                ]
+            },
+            {
+                test: /\.(scss|css)$/,
+                use: [
+                  'style-loader',
+                  'css-loader',
+                  'sass-loader'
+                ]
+            }
+        ]
+    },
 
 	plugins: [
 
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.HotModuleReplacementPlugin(),                //webpack HMR with webpack-hot-middleware & expres
-		new webpack.NoErrorsPlugin()
+		new webpack.HotModuleReplacementPlugin()                // Hot Module Replacement in React, webpack HMR with webpack-hot-middleware & expres
+	]
+}
+
+
+
+	// module: {
+
+	// 	loaders: [
+
+	// 	    {
+	// 			test: /\.js?$/, 
+	// 			loader: 'babel-loader', 
+	// 			exclude: /node_modules/, 
+	// 			query: { presets: ['react', 'es2015', 'react-hmre']}
+	// 		}
+
+	// 	]
+	// },
+
+			/*new webpack.NoErrorsPlugin()*/
 
 		// browse to http://localhost:3000/ during development
 		// new browserSyncPlugin({
@@ -62,5 +108,3 @@ module.exports = {
 	 //        // and let Webpack Dev Server take care of this
 	 //        reload: false,
 		// )
-	]
-}

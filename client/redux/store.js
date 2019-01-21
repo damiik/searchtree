@@ -1,7 +1,9 @@
 import  { applyMiddleware, compose, createStore, combineReducers} from 'redux'
-import logger from 'redux-logger'
+//import { thunk } from 'redux-thunk';
 import thunk from 'redux-thunk'
-
+import { createLogger } from 'redux-logger'
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
 
 // define reducers
 //-------------------------------------------------------------------------------------
@@ -179,7 +181,11 @@ const mainReducer = combineReducers({todos: todoReducer, user: userReducer, main
 //-------------------------------------------------------------------------------------
 // *thunk* middleware watch every action if it's object or function, if it's a function
 // then thunk pass dispatch to that function (then dispatch could be started on server response etc.)
-let composedCreateStore = compose( applyMiddleware(thunk, logger()) );  // thunk for async dispatch
+//let composedCreateStore = compose( applyMiddleware(thunk, logger()) );  // thunk for async dispatch
+//const middleware = applyMiddleware(thunk, createLogger({collapsed:true}), routerMiddleware(browserHistory))
+const middleware = applyMiddleware(thunk, createLogger({collapsed:true}))
+let composedCreateStore = compose( middleware );  // thunk for async dispatch
+
 let  finalCreateStore = composedCreateStore( createStore )
 
 

@@ -22,8 +22,8 @@ mongoose.connect(data.data.mongodb, function (err) {
     console.log('MongoDB connection: success..');
   }
 });
-app.use(express.static('../client/dist'));
-app.use(express.static(path.join(__dirname, 'bower_components'))); //app.use(express.static(__dirname))
+app.use(express.static(path.resolve('../client/dist'))); //app.use(express.static(path.join(__dirname, 'bower_components')));
+//app.use(express.static(__dirname))
 // (part 4 updates)
 // webpack HMR with webpack-hot-middleware & expres
 // using webpack-dev-server and middleware in development environment
@@ -39,7 +39,8 @@ if (process.env.NODE_ENV !== 'production') {
   var config = require('../webpack.config.js');
 
   var compiler = webpack(config); // run webpack
-  // app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
+
+  console.log("~~~NOT PRODUCTION MODE~~~"); // app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
   // app.use(webpackHotMiddleware(compiler));
 
   app.use(webpackDevMiddleware(compiler, {
@@ -57,6 +58,8 @@ if (process.env.NODE_ENV !== 'production') {
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000
   }));
+} else {
+  console.log("~~~PRODUCTION MODE~~~ ");
 } // Provides req.body and req.files with the submitted data for subsequent middle-ware to use.
 // The registration form uses the object notation user[name], which translates to req.body.user.name
 
@@ -64,8 +67,8 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
-}));
-app.use(express.static(__dirname)); // Allows you to fake req.method for browsers that can’t use the proper method. Depends on bodyParser.
+})); //app.use(express.static(__dirname))
+// Allows you to fake req.method for browsers that can’t use the proper method. Depends on bodyParser.
 
 app.use(methodOverride());
 app.use('/notes', notes);

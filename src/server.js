@@ -21,8 +21,8 @@ mongoose.connect(data.data.mongodb, function(err) {
     }
 });
 
-app.use(express.static('../client/dist'));
-app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.resolve('../client/dist')));
+//app.use(express.static(path.join(__dirname, 'bower_components')));
 //app.use(express.static(__dirname))
 
 
@@ -69,7 +69,7 @@ if(process.env.NODE_ENV !== 'production') {
 }
 else {
 
-  console.log("~~~PRODUCTION MODE~~~");
+  console.log("~~~PRODUCTION MODE~~~ ");
 }
 
 

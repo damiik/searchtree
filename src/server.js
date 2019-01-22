@@ -69,7 +69,7 @@ if(process.env.NODE_ENV !== 'production') {
 }
 else {
 
-  console.log("~~~PRODUCTION MODE~~~");
+  console.log("~~~PRODUCTION MODE~~~ ");
 }
 
 

@@ -41,6 +41,8 @@ if(process.env.NODE_ENV !== 'production') {
 
   var compiler = webpack( config ); // run webpack
 
+  console.log("~~~NOT PRODUCTION MODE~~~");
+
   // app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
   // app.use(webpackHotMiddleware(compiler));
 
@@ -65,13 +67,17 @@ if(process.env.NODE_ENV !== 'production') {
     heartbeat: 10 * 1000,
   }));
 }
+else {
+
+  console.log("~~~PRODUCTION MODE~~~");
+}
 
 
 // Provides req.body and req.files with the submitted data for subsequent middle-ware to use.
 // The registration form uses the object notation user[name], which translates to req.body.user.name
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname))
+//app.use(express.static(__dirname))
 
 
 

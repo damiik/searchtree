@@ -53,7 +53,7 @@ class App extends Component {
 
     return (
       <div className = "container">
-        <h1>Search Tree *Super Asia ->>  M.E.R.N. example</h1>
+        <h1>Search Tree *Super Asia ~~>  M.E.R.N. example</h1>
 
         <MainItem
           item = { this.props.mainItem } 

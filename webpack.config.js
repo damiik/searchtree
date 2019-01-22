@@ -17,14 +17,14 @@ module.exports = {
 	output: {
 		/*path: path.resolve("./dist"),*/
 		// path: __dirname + '/dist',
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve("./client/dist"),
 		filename: 'bundle.js', /* budle.js is created dynamically!!! */
 		publicPath: '/'
 	},
 
 	devServer: {
 
-	  contentBase:  path.resolve(__dirname, 'dist') //'./dist'
+	  contentBase: path.resolve("./client/dist")//'./dist'
 	},
 	
 	resolve: {

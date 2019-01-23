@@ -31,7 +31,12 @@ class SearchItem extends Component {
 
       <a href="#" className="list-group-item col-sm-12 pull-right">
       <h3 className = "text-primary col-sm-10" id = {this.props.t_id} onClick = {this.handleChangeMainItem.bind(this)}>{this.props.todo.text} </h3>
-      <button type="button" className={"btn btn-md btn-success glyphicon " + (this.props.todo.completed ? "glyphicon-asterisk" : "glyphicon-pushpin")} onClick={this.handlePushpin.bind(this)}/>  <button type="button" className="btn btn-md btn-danger glyphicon glyphicon-remove" onClick={this.handleDelete.bind(this)}/>
+      <button type="button" className={"btn btn-md btn-success" } onClick={this.handlePushpin.bind(this)}>
+        <span className ={"glyphicon " + (this.props.todo.completed ? "glyphicon-asterisk" : "glyphicon-pushpin")}></span>
+      </button> 
+      <button type="button" className="btn btn-md btn-danger" onClick={this.handleDelete.bind(this)}>
+        <span className="glyphicon glyphicon-remove"></span>
+      </button>
       </a>
     )
   }

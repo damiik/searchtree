@@ -12,18 +12,19 @@ var mongoose = require('mongoose');
 
 var notes = require('./routes/notes');
 
-var data = require('../data.js');
+var data = require('../data.js'); // REQUIRE BASE ON LOCAL DIRECTORY (here server.js directory)
+
 
 var app = express();
 console.log("mongodb:" + data.data.mongodb); //mongoose.connect('mongodb://localhost/search-tree', function(err) {
 
 mongoose.connect(data.data.mongodb, function (err) {
   if (err) console.log('MongoDB connection error', err);else {
-    console.log('MongoDB connection: success..');
+    console.log(' ');
   }
-});
-app.use(express.static(path.resolve('../client/dist'))); //app.use(express.static(path.join(__dirname, 'bower_components')));
-//app.use(express.static(__dirname))
+}); //app.use(express.static(path.join(__dirname, '../client/dist'))); 
+
+app.use(express.static(path.resolve('./client/dist'))); // . IS DIRECTORY from which you RUN the node command      
 // (part 4 updates)
 // webpack HMR with webpack-hot-middleware & expres
 // using webpack-dev-server and middleware in development environment
@@ -36,7 +37,8 @@ if (process.env.NODE_ENV !== 'production') {
 
   var webpack = require('webpack');
 
-  var config = require('../webpack.config.js');
+  var config = require('../webpack.config.js'); // REQUIRE BASE ON LOCAL DIRECTORY (here server.js directory)
+
 
   var compiler = webpack(config); // run webpack
 
@@ -73,7 +75,7 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride());
 app.use('/notes', notes);
 app.use('/', function (req, res) {
-  res.sendFile(path.resolve('./client/dist/index.html'));
+  res.sendFile(path.resolve('./client/dist/index.html')); // . IS DIRECTORY from which you RUN the node command 
 }); // aktualny port
 //var port = 3001;
 

@@ -1,6 +1,8 @@
 # searchtree
 ## MERN React-Redux 
+Project inspared by **Basic App Setup | React + Redux + Webpack** Kurt Weiberth video https://www.youtube.com/watch?v=CAZZN1gOjoI&nohtml5=
 
+Express server serve client inxex.html file so proxy server in package.json is not used here. 
 ### Simple example with:
 
  * React 16.7.0

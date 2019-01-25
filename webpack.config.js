@@ -1,6 +1,5 @@
 var path = require('path')
 var webpack = require('webpack');
-const devMode = process.env.NODE_ENV !== 'production';
 
 var browserSyncPlugin = require('browser-sync-webpack-plugin')
 
@@ -11,7 +10,7 @@ module.exports = {
 
 	//devtool: 'inline-source-map',  //????
 	//context: path.join(__dirname, 'js'),
-	mode:'development',
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 
     entry: ["@babel/polyfill", './client/client.jsx'], //an entry point for the application
 	output: {
@@ -22,10 +21,14 @@ module.exports = {
 		publicPath: '/'
 	},
 
-	devServer: {
+	// devServer: {   // webpack is running from node.js, devServer options ignored!!
 
-	  contentBase: path.resolve("./client/dist")//'./dist'
-	},
+	//   contentBase: path.resolve("./client/dist"), //'./dist'
+	//   proxy: [{
+	// 	context: ['/notes', '/api'],
+	// 	target: 'http://localhost:3001',
+	//   }]
+	// },
 	
 	resolve: {
 
@@ -71,7 +74,20 @@ module.exports = {
 	plugins: [
 
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.HotModuleReplacementPlugin()                // Hot Module Replacement in React, webpack HMR with webpack-hot-middleware & expres
+		new webpack.HotModuleReplacementPlugin(),                // Hot Module Replacement in React, webpack HMR with webpack-hot-middleware & expres
+		new browserSyncPlugin({                                  // Webpack Dev Server 
+			host: 'localhost',
+			port: 3002,
+			browsers: [],
+			proxy: 'http://localhost:3001/'                     // Webpack Dev Server proxy server localhost:3001
+		  },
+		  // plugin options
+		  {
+			// prevent BrowserSync from reloading the page
+			// and let Webpack Dev Server take care of this
+			reload: false
+		  })
+
 	]
 }
 

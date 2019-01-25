@@ -1,4 +1,3 @@
-
 let express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -11,7 +10,7 @@ var data = require('../data.js'); // REQUIRE BASE ON LOCAL DIRECTORY (here serve
 var app = express();
 
 console.log("mongodb:" + data.data.mongodb)
-//mongoose.connect('mongodb://localhost/search-tree', function(err) {
+
 mongoose.connect(data.data.mongodb, function(err) {
 
     if( err ) console.log('MongoDB connection error', err);
@@ -20,12 +19,12 @@ mongoose.connect(data.data.mongodb, function(err) {
         console.log(' ');
     }
 });
-//app.use(express.static(path.join(__dirname, '../client/dist'))); 
-app.use(express.static(path.resolve('./client/dist'))); // . IS DIRECTORY from which you RUN the node command      
 
+   
+// Serve the static files from the React app
+app.use(express.static(path.resolve('./client/dist'))); // . IS DIRECTORY from which you RUN the node command   
+//app.use(express.static(__dirname)) // server DIRECTORY
 
-
-// (part 4 updates)
 
 // webpack HMR with webpack-hot-middleware & expres
 // using webpack-dev-server and middleware in development environment
@@ -39,11 +38,7 @@ if(process.env.NODE_ENV !== 'production') {
 
   var compiler = webpack( config ); // run webpack
 
-  console.log("~~~NOT PRODUCTION MODE~~~");
-
-  // app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: config.output.publicPath}));
-  // app.use(webpackHotMiddleware(compiler));
-
+  console.log("~~~THIS IS NOT PRODUCTION MODE~~~");
 
   app.use(webpackDevMiddleware(compiler, {
 
@@ -75,13 +70,10 @@ else {
 // The registration form uses the object notation user[name], which translates to req.body.user.name
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(express.static(__dirname))
-
 
 
 // Allows you to fake req.method for browsers that can’t use the proper method. Depends on bodyParser.
 app.use(methodOverride());
-
 
 app.use('/notes', notes);
 
@@ -90,19 +82,16 @@ app.use('/', function (req, res) {
     res.sendFile(path.resolve('./client/dist/index.html'));// . IS DIRECTORY from which you RUN the node command 
 });
 
-// aktualny port
-//var port = 3001;
-
 var port = normalizePort(process.env.PORT ||'3001');
 app.set('port', port);
 
 
-console.log('express server is ready>>>>');
+console.log('ExpressJS server is ready. >>>>');
 
 app.listen(port, process.env.IP);
 app.on('error', onError);
 app.on('listening', onListening);
-
+ 
 
 
 // app.listen(port, function (error) {

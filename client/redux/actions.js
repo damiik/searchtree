@@ -4,43 +4,38 @@
 
 let actions = {
 
-  // addTodo: ( text, id = -1 ) => {
-  //   return {
-  //     type: 'ADD_TODO',
-  //     text: text,
-  //     id: id
-  //   }
-  // },
-
-
   addTodo: ( text, id = -1 ) => {
 
     return ( dispatch ) => {
 
-      $.ajax({
-          url: '/notes',
-          type: 'POST',
-          data: {
+      fetch('/notes', {
 
-            text: 'auto',
-            note: text,
-            connected_notes: [],
-            description: ''
-          },
+        method: 'POST',
+        headers: {
+    
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+    
+          text: 'auto',
+          note: text,
+          connected_notes: [],
+          description: ''
+        })
+      })
+      .then(res => res.json()).then(res => {
+        
+        //console.log(">>POST: " + JSON.stringify(res, null, 2));
+        dispatch({
 
-        success: function(data, textStatus, jqXHR) {
-
-          console.log(JSON.stringify(data, null, 2));
-
-          dispatch({
-            type: 'ADD_TODO',
-            text: data.note,
-            id: data._id,
-            connected_notes: [],
-            description: ''
-          })
-        }
-      });
+          type: 'ADD_TODO',
+          text: res.note,
+          id: res._id,
+          connected_notes: [],
+          description: ''
+        });
+      }).catch(error => console.log('Request failed', error));
     }
   },
 
@@ -48,30 +43,28 @@ let actions = {
 
     return ( dispatch ) => {
 
-      $.ajax({
-        url: '/notes',// & id,
-        type: 'DELETE',
-        data: {
+      fetch('/notes', {
 
-          '_id' : id
+        method: 'DELETE',
+        headers: {
+    
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
         },
-
-        success: function(data, textStatus, jqXHR) {
-
-          dispatch({
+        body: JSON.stringify( {'_id' : id} )
+      })
+      .then(res => res.json()).then(res => {
+        
+        //console.log(">>DELETE: " + JSON.stringify(res, null, 2));
+        dispatch({
 
            type: 'DELETE_TODO',
              id: id
-          })
-        }
-      });
+        });
+      }).catch(error => console.log('Request failed', error));
     }
-
-  	// return {
-  	// 	type: 'DELETE_TODO',
-  	//   	id: id
-  	// };
   },
+     
 
   // add uploading connected items loadDbData(search_text)
   changeMainItem_xxxx: ( item ) => {  // <- do zastąpienia przez loadDbData(item, search_text)
@@ -114,55 +107,55 @@ let actions = {
 
   saveMainItemNote: (id, text) => {
 
-
     return ( dispatch ) => {
 
-      $.ajax({
-        url: '/notes',// & id,
-        type: 'PUT',
-        data: {
+      fetch('/notes', {
 
-          '_id' : id,
-          'updateObject': {note: text}
-          //'text': text
+        method: 'PUT',
+        headers: {
+    
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
         },
+        body: JSON.stringify( {'_id' : id, 'updateObject': {note: text}} )
+      })
+      .then(res => res.json()).then(res => {
 
-        success: function(data, textStatus, jqXHR) {
+        console.log(">>PUT: " + JSON.stringify(res, null, 2));
+        dispatch({
 
-          dispatch({
+          type: 'UPDATE_MAIN_ITEM',
+          text: text
+        })
 
-            type: 'UPDATE_MAIN_ITEM',
-            text: data.note
-          })
-        }
-      });
+      }).catch(error => console.log('Request failed', error));
     }
-  },  
+  },
 
   saveDescription: (id, desc) => {
 
     return ( dispatch ) => {
 
-      $.ajax({
-        url: '/notes',// & id,
-        type: 'PUT',
-        data: {
+      fetch('/notes', {
 
-          '_id' : id,
-          'updateObject': {description: desc}
-          //'text': text
+        method: 'PUT',
+        headers: {
+    
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
         },
+        body: JSON.stringify( {'_id' : id, 'updateObject': {description: desc}} )
+      })
+      .then(res => res.json()).then(res => {
+        
+        console.log(">>PUT(" + desc + "): " + JSON.stringify(res, null, 2));
+        dispatch({
 
-        success: function(data, textStatus, jqXHR) {
-
-          dispatch({
-
-            type: 'UPDATE_DESCRIPTION',  // save descriptin to view item state
-            id: id,
-            desc: data.description
-          })
-        }
-      });
+          type: 'UPDATE_DESCRIPTION',  // save descriptin to view item state
+          id: id,
+          desc: desc
+        })
+      }).catch(error => console.log('Request failed', error));
     }
   },
 
@@ -183,18 +176,21 @@ let actions = {
         let id_array = mainItem.connected_notes.filter(( item_id ) => {return item_id !== id});
         if(id_array.length === 0) id_array = [ -1 ];
 
-        $.ajax({
-          url: '/notes',// & id,
-          type: 'PUT',
-          data: {
+        fetch('/notes', {
 
-            '_id' : mainItem.id,
-            'updateObject': {'connected_notes': id_array}
-           },
-
-          success: function(data, textStatus, jqXHR) {
-
-            dispatch({
+          method: 'PUT',
+          headers: {
+      
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify( {'_id' : mainItem.id,
+          'updateObject': {'connected_notes': id_array}} )
+        })
+        .then(res => res.json()).then(res => {
+          
+          //console.log(">>PUT(" + desc + "): " + JSON.stringify(res, null, 2));
+          dispatch({
 
               type: 'DEL_CONNECTED_ITEM',               // <- tutaj powinno być coś w rodzaju REFRESH MAIN ITEM..
               id: id
@@ -206,39 +202,40 @@ let actions = {
               id: id,
               on: false
             });
-          }
-        });
+        }).catch(error => console.log('Request failed', error));
       }
       else {
 
         console.log('add connected 2, mainItem:' + mainItem.id + 'added item:' + id);
 
-        $.ajax({
-          url: '/notes',// & id,
-          type: 'PUT',
-          data: {
+        fetch('/notes', {
 
-            '_id' : mainItem.id,
-            'updateObject': {connected_notes: [...mainItem.connected_notes, id]}
-            //'connected_notes': [...mainItem.connected_notes, id]
+          method: 'PUT',
+          headers: {
+      
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
           },
+          body: JSON.stringify( {'_id' : mainItem.id,
+          'updateObject': {connected_notes: [...mainItem.connected_notes, id]}} )
+        })
+        .then(res => res.json()).then(res => {
+          
+          //console.log(">>PUT(" + desc + "): " + JSON.stringify(res, null, 2));
 
-          success: function(data, textStatus, jqXHR) {
+          dispatch({
 
-            dispatch({
+            type: 'ADD_CONNECTED_ITEM',               // <- tutaj powinno być coś w rodzaju REFRESH MAIN ITEM..
+            id: id
+          });
 
-              type: 'ADD_CONNECTED_ITEM',               // <- tutaj powinno być coś w rodzaju REFRESH MAIN ITEM..
-              id: id
-            });
+          dispatch({
 
-            dispatch({
-
-              type: 'TOGGLE_TODO',
-              id: id,
-              on: true
-            });
-          }
-        });
+            type: 'TOGGLE_TODO',
+            id: id,
+            on: true
+          });
+        }).catch(error => console.log('Request failed', error));
       }
     }
   },
@@ -403,14 +400,13 @@ let actions = {
 
     return (dispatch, getState) => {
 
-      $.ajax({
+      fetch('/notes')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
 
-        url: '/notes',
-        method: 'GET',
-
-        success: function(data, textStatus, jqXHR) {
-
-          //console.log(JSON.stringify(data, null, 2));
+          console.log("changeMainItem @ Get notes: " + JSON.stringify(data, null, 2));
 
           const {todos, mainItem} = getState();
 
@@ -480,7 +476,6 @@ let actions = {
               desc: item.description
             })  
           }
-        }
       });
     }
   },
@@ -490,74 +485,72 @@ let actions = {
 
     return (dispatch, getState) => {
 
-      $.ajax({
+      fetch('/notes')
+      .then(function(response) {
+        return response.json();
+      })
+      .then( function(data) {
 
-        url: '/notes',
-        method: 'GET',
+        console.log("loadSearchItems @ Get notes: " + JSON.stringify(data, null, 2));
 
-        success: function(data, textStatus, jqXHR) {
+        const {todos, mainItem} = getState();
 
-          //console.log(JSON.stringify(data, null, 2));
+        let re = new RegExp( searchText ) //=== '' ? mainItem.search_text : searchText );
+        let _mainItem = mainItem;
 
-          const {todos, mainItem} = getState();
+        // loop by all items from DB (curr_item)
+        data.map(( curr_item ) => {
 
-          let re = new RegExp( searchText ) //=== '' ? mainItem.search_text : searchText );
-          let _mainItem = mainItem;
+          let inTodos = todos.some(( todo ) => {return todo.id === curr_item._id}); // curr_item already on todos list
+          let inSearch = searchText ? re.test( curr_item.note ) : false;
+          let inConnected = ( // curr_item in _mainItem.connected_notes
 
-          // loop by all items from DB (curr_item)
-          data.map(( curr_item ) => {
+            _mainItem && 
+            _mainItem.connected_notes && 
+            _mainItem.connected_notes.length > 0 && 
+            _mainItem.connected_notes.some(( curr_id ) => {return curr_id === curr_item._id})
+          );
 
-            let inTodos = todos.some(( todo ) => {return todo.id === curr_item._id}); // curr_item already on todos list
-            let inSearch = searchText ? re.test( curr_item.note ) : false;
-            let inConnected = ( // curr_item in _mainItem.connected_notes
+          // remove or add by searchText, item (new mainItem) may be null here
 
-              _mainItem && 
-              _mainItem.connected_notes && 
-              _mainItem.connected_notes.length > 0 && 
-              _mainItem.connected_notes.some(( curr_id ) => {return curr_id === curr_item._id})
-            )
+          if(!inTodos && inSearch) {
+            //console.log("Curr && (ent todos:" + JSON.stringify(todos, null, 2));
+            console.log('new item id:' + curr_item._id);
 
-            // remove or add by searchText, item (new mainItem) may be null here
+            dispatch({
 
-            if(!inTodos && inSearch) {
-              //console.log("Curr && (ent todos:" + JSON.stringify(todos, null, 2));
-              console.log('new item id:' + curr_item._id);
+              type: 'ADD_TODO',
+              text: curr_item.note,
+              id: curr_item._id,
+              description: curr_item.description ? curr_item.description : '',
+              connected_notes: curr_item.connected_notes,
+              completed: false
+            });
 
-              dispatch({
+            dispatch({
 
-                type: 'ADD_TODO',
-                text: curr_item.note,
-                id: curr_item._id,
-                description: curr_item.description ? curr_item.description : '',
-                connected_notes: curr_item.connected_notes,
-                completed: false
-              })
+              type: 'TOGGLE_TODO',
+              id: curr_item._id,
+              on: false
+            });
 
-              dispatch({
+          }
+          else if(inTodos && !inConnected && !inSearch) {
 
-                type: 'TOGGLE_TODO',
-                id: curr_item._id,
-                on: false
-              });
+            dispatch({
 
-            }
-            else if(inTodos && !inConnected && !inSearch) {
+              type: 'DELETE_TODO',
+                id: curr_item._id
+            })    
+          }
+        });
 
-              dispatch({
+        // save mainItem search_text
+        dispatch({
 
-               type: 'DELETE_TODO',
-                 id: curr_item._id
-              })    
-            }
-          })
-
-          // save mainItem search_text
-          dispatch({
-
-            type: 'CHANGE_SEARCH_TEXT',
-            search_text: searchText
-          })
-        }
+          type: 'CHANGE_SEARCH_TEXT',
+          search_text: searchText
+        });
       });
     }
   }

@@ -12,6 +12,7 @@ var Note = require('../models/note.js');
 
 router.get('/', function (req, res, next) {
   Note.find(function (err, notes) {
+    // Kitten.find({ name: /^fluff/ }, callback);
     if (err) return next(err);
     console.log('get: success..');
     res.json(notes);
@@ -48,6 +49,8 @@ router.put('/', function (req, res, next) {
 /* DELETE /Notes/:id */
 
 router.delete('/', function (req, res, next) {
+  console.log('findByIdAndRemove' + req.body._id); // findOneAndDelete
+
   Note.findByIdAndRemove(req.body._id, function (err, post) {
     console.log('delete note' + req.body._id);
     if (err) return next(err);

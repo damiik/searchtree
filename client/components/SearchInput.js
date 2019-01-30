@@ -43,25 +43,16 @@ class SearchInput extends Component {
   render() {
 
     return (
-      <div className="clearfix">
-        <form className = "form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-          <div className = "list-group-item col-sm-12 pull-right">
-            <span className = "glyphicon glyphicon-search" aria-hidden="true" col-sm-1>
-            </span>
-            <div className = "col-sm-9">
-              <input className = "col-sm-12"
-                type = "text" 
-                ref = {node => {this.text_input = node}}
-                placeholder = "Type in your Search"
-                onChange = {this.handleTextChange.bind(this)}
-              />
-            </div>
-            <div className = "col-sm-2">
-              <input className="btn btn-info btn-md col-sm-12" type="submit" text="Add" />
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className = "form-container" id = "search-form" onSubmit={this.handleSubmit.bind(this)}>
+        <input className = "form-value" id="serach" type = "text" 
+          ref = {node => {this.text_input = node}}
+          placeholder = "Type in your Search.."
+          onChange = {this.handleTextChange.bind(this)}
+        />
+         <button type="submit" className="btn-success">
+          <div><i className="fas fa-search"/> Add</div>
+        </button>
+      </form>
     )
   }
 }

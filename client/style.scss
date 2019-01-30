@@ -1,0 +1,360 @@
+$cream-yellow: rgb(245, 220, 145);
+$orange: rgba(244, 192, 37, 1);
+$white: rgb(255, 255, 255);
+$dark-dark-red: rgb(41, 36, 34);
+$dark-dark-red2: rgba(36, 32, 30, 1);
+
+$indygo-blue:  rgb(0, 181, 226);
+$white-little-blue: rgba(250,250,255,1);
+
+$green: rgba(0,160,60,1);
+$green-darker:rgba(0,120,40,1);
+$green-transparent: rgba(0,160,60,0);
+$green-transparent2: rgba(0,160,60,0.02);
+
+$red: rgba(244, 89, 87,1);
+$red-transparent: rgba(244, 89, 87,0.0);
+$red-transparent2: rgba(244, 89, 87,0.02);
+
+
+$dark-dark-grey:  rgb(43, 43, 43);
+$middle-gray: rgba(130,134,130,1);
+$middle-grey2: rgba(110,114,110,1);
+
+
+%basic-font {
+
+    font-family: 'Fira Mono', monospace;
+    font-size: 18px;  
+}
+
+%little-font {
+
+    font-family: 'Fira Mono', monospace;
+    font-size: 12px;  
+}
+
+%area-font {
+
+    font-family: 'Crete Round', serif; 
+    font-size: 16px;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+
+   border-bottom: 2px dashed $cream-yellow;
+  -webkit-text-fill-color:  $white;
+  -webkit-box-shadow: 0 0 0px 1000px $dark-dark-red inset;
+  box-shadow: 0 0 0px 1000px $dark-dark-red inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+
+body {
+
+	@extend %basic-font;
+	/*background: rgba(33, 46, 59, 1);*/
+    background: $dark-dark-red;
+    color: $middle-gray;
+    margin: 0;  // reset default
+    padding: 0; // reset default
+    display: inline;
+}
+
+table {
+
+    /* border-top: 2px dashed $middle-grey2; */
+  
+}
+
+h1 {
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+}
+
+th {
+
+    font-weight: normal;
+    text-align: left;
+    border-bottom: 2px solid $indygo-blue;
+}
+
+
+.frame {
+
+    border: 2px dashed $dark-dark-grey;
+    border-radius: 6px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.45); 
+    box-shadow: 4px 4px 12px 0px rgba(0, 0, 0, 0.2);
+    padding: 6px;
+    background: $dark-dark-red2;
+}
+
+.container {
+
+    display:  grid; /* | inline-grid */
+
+    grid-column-gap: 10px;
+    grid-row-gap: 35px;
+    /* justify-items: stretch; */
+    /* align-items: top; */
+    /* align-items: start; */
+}
+
+.form-container {
+
+    display: grid ; /* | inline-grid */
+
+    grid-column-gap: 6px;
+    grid-row-gap: 0px;
+
+    // justify-items: stretch;
+    /* align-items: center;  */
+    /* align-items: start; */
+}
+
+
+#main-container {
+
+    grid-template-columns: 1fr repeat(5, 2fr) 1fr;
+    grid-template-rows: 1fr 2fr 6fr auto;
+}
+
+#search-form {
+
+    font-weight: normal;
+    grid-column: 1 / 2;
+    grid-row: 1;
+    justify-self: stretch; 
+}
+
+
+
+#search-list {
+
+    @extend %little-font;
+
+    grid-column: 1 / 2;
+    grid-row: 2 /end;
+    // justify-self: stretch;   
+}
+
+
+#content-form {
+
+    grid-column: 2 / 6;
+    grid-row: 3;
+    grid-template-columns:  1fr;
+    grid-template-rows: 28px auto 28px;
+    justify-self: stretch;  
+    background: $dark-dark-red2;
+}
+
+.logo {
+
+    font-weight: normal;
+    grid-column: 2 / 7;
+    grid-row: 1;
+    justify-self: stretch; 
+}
+
+.table {
+
+    /* display: flex; */
+    align-items: center;
+    /* max-width: 300px; */
+}
+
+.row:hover {
+
+    background-color: $dark-dark-grey; 
+}
+
+.search-element {
+    display: grid ;
+    grid-template-columns:  auto 32px;
+    // grid-template-rows: auto;
+}
+
+.search-element-text {
+
+    grid-column: 1/2;
+    grid-row: auto;
+}
+
+.search-element-tool {
+    grid-column: 2/3;
+    grid-row: auto;
+}
+
+.app-info {
+
+    @extend %area-font;
+    margin: 20px 0;
+    border-bottom: 2px dashed $middle-grey2;
+    padding: 1px 0px 1px 10px;  
+    background-color: $dark-dark-grey; 
+}
+
+%button-stuf {
+
+    padding: 2px 10px 2px;  
+    display: block;
+    text-align: center; 
+    cursor: pointer;
+}
+
+.btn-noframe {
+
+    @extend %basic-font;
+    @extend %button-stuf;
+
+    background: $green-transparent; /*musi być ciemniejsze od zielonego "cienkiego" */
+    color:  $green;
+}
+
+.btn-noframe:hover {
+   
+    background: $green-transparent2; /*musi być ciemniejsze od zielonego "cienkiego" */
+    padding: 2px 9px 2px;  
+    color:  $orange;
+}
+
+.btn-success {
+
+    @extend %basic-font;
+    @extend %button-stuf;
+
+    background: $green-transparent2; /*musi być ciemniejsze od zielonego "cienkiego" */
+    border: 2px solid  $green;
+    border-radius: 4px;
+
+    color: $green;
+}
+
+.btn-success:hover {
+   
+    background: $green-transparent2; /*musi być ciemniejsze od zielonego "cienkiego" */
+    border: 2px solid $green-darker;
+    padding: 2px 9px 2px;  
+    color: $orange;
+}
+
+.btn-success-noframe {
+
+    @extend %basic-font;
+    @extend %button-stuf;
+
+    padding: 0;
+    border: none;
+    background: none;
+    color: $green;
+}
+
+.btn-success-noframe:hover {
+   
+
+    color: $orange;
+}
+.btn-danger {
+    @extend %basic-font;
+    @extend %button-stuf;
+    background: $red-transparent;
+    border: 2px solid $red; 
+    border-radius: 4px;
+
+    color: $red;
+}
+
+.btn-danger:hover {
+   
+    background: $red-transparent2; /*musi być ciemniejsze od zielonego "cienkiego" */
+    /* border: 2px solid rgb(197, 73, 71); */
+    padding: 2px 9px 2px;  
+    color:  $orange;
+}
+
+.btn-danger-noframe {
+    @extend %basic-font;
+    @extend %button-stuf;
+    padding: 0;
+    border: none;
+    background: none;
+    color: $red;
+}
+
+.btn-danger-noframe:hover {
+    color:  $orange;
+}
+
+
+
+.indygo {
+
+    color: $indygo-blue;
+}
+
+.light {
+
+    color:$white-little-blue;
+}
+
+#book-form {
+
+    grid-column: 2 / 6;
+    grid-row: 2;
+    grid-template-columns:  1fr 2fr ;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+
+
+.form-label {
+
+    grid-column: 1 / 3;
+    /* grid-row: 1 / 4; */
+    justify-self: stretch; 
+    // justify-self: right;
+    align-self: center; 
+}
+
+.form-value {
+
+    @extend %basic-font;
+    grid-column: 1 / 3;
+    /*grid-row: 1 / 4; */
+    justify-self: stretch;
+    align-self: center; 
+    outline: none;
+    border: none;
+    /* margin: 0 0 10px 3px; */
+    padding: 8px 5px 0px 0;
+    background:  $dark-dark-red2;
+    color: $white-little-blue;
+
+    border-bottom: 2px dashed $orange;
+}
+
+#form-button-ok {
+
+    grid-column: 1 / 2;
+    grid-row: 3;
+    justify-self: stretch; 
+    /* justify-self: start | end | center | stretch; */
+}
+#form-button-delete {
+
+    grid-column: 2 / 3;
+    grid-row: 3;
+    justify-self: stretch; 
+    /* justify-self: start | end | center | stretch; */
+}

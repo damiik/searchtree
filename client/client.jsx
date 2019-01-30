@@ -4,6 +4,7 @@ import App from './components/App'
 import configureStore from './redux/store'
 import  { Provider } from 'react-redux'
 
+import './style.scss'
 
 // main store definition here
 // --------------------------
@@ -14,7 +15,8 @@ let initialState = {
 	// 	completed: false,
 	// 	text: 'Initial todo for demo purposes'
 	// }],
-	todos: [ ],
+	img_url: '',
+	todos: [],
 	mainItem: {
 
 		id: 0,
@@ -29,11 +31,13 @@ let initialState = {
 	}
 }
 
-//let store = configureStore( initialState );
 
-render(
 
-   <Provider store = { configureStore( initialState ) }>
+let store = configureStore( initialState );
+
+render( 
+
+   <Provider store = { store }>
    	 <App/>
    </Provider>,
    document.getElementById('app')

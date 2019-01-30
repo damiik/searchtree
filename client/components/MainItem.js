@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 
 class MainItem extends Component {
 
-
   constructor(props, context) {
 
     super(props, context)
@@ -34,7 +33,7 @@ class MainItem extends Component {
   handleSubmit(event) {
 
     event.preventDefault()
-    this.props.actions.saveMainItemNote(this.props.item.id, this.text_input.value ) // this.props.addTodo(this.state.inputText)
+    this.props.actions.saveMainItemNote(this.props.item.id, this.text_input.value) // this.props.addTodo(this.state.inputText)
     //this.text_input.value = ""
   }
 
@@ -42,7 +41,7 @@ class MainItem extends Component {
   handleTextChange(event) {
 
     event.preventDefault()
-    this.props.actions.updateMainItem(this.text_input.value ) // this.props.addTodo(this.state.inputText)
+    this.props.actions.updateMainItem( this.text_input.value ) // this.props.addTodo(this.state.inputText)
   }
 
 
@@ -52,24 +51,16 @@ class MainItem extends Component {
 
     return (
 
-      <form className = "form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-        <div className = "list-group-item col-sm-12 pull-right">
-          <span className = "glyphicon glyphicon-pencil" aria-hidden="true" col-sm-1>
-          </span>
-          <div className = "col-sm-10">
-            <input className = "col-sm-12"
-              id = "mainItem"
-              type = "text" 
+      <form className = 'form-container frame' id = 'book-form' onSubmit={this.handleSubmit.bind(this)}> 
+            <label className = "form-label" for="mainItem">Note:</label>
+            <input className = "form-value" id = "mainItem" type = "text" placeholder = "???"
               ref = {node => {this.text_input = node}}
-              placeholder = "Type in your Searchzz"
-              value = {this.props.item.text}
-              onChange = {this.handleTextChange.bind(this)}
-            />
-          </div>
-          <div className = "col-sm-2">
-            <button type="button" className="btn btn-md btn-success img-circle" onClick={this.handleComplete.bind(this)}>&#x2713;</button> <button type="button" className="btn btn-md btn-danger glyphicon glyphicon-remove" onClick={this.handleDelete.bind(this)}/>
-          </div>
-        </div>
+              value = {this.props.item.text} 
+              onChange = {this.handleTextChange.bind(this)}/>
+
+            <button type="button" className="btn-success" id="form-button-ok" onClick={this.handleComplete.bind(this)}>
+            ok</button> 
+          <button type="button" className="btn-danger" id= "form-button-delete" onClick={this.handleDelete.bind(this)}>del</button>
       </form>
     )
   }

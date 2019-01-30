@@ -5,6 +5,13 @@ import MainItem from './MainItem'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import actions from '../redux/actions'
+import store from '../redux/store'
+
+function readonly(target, name, descriptor) {
+
+  descriptor.writable = false;
+  return descriptor;
+}
 
 class App extends Component {
 
@@ -18,18 +25,29 @@ class App extends Component {
 
     // I also use text_input class attribute 
     // I have to clear input after action is created, is simpler to do that this way
+    // this.state = {
+    //   img_url: null  
+    // };
+    // store.subscribe(() => {
+    //   // When state will be updated(in our case, when items will be fetched), 
+    //   // we will update local component state and force component to rerender 
+    //   // with new data.
 
+    //   this.setState({img_url: store.getState().img_url });
+    // });
     // this attribute is set later by ref: ref = {node => {this.text_input = node}}
-    this.description = null;
+    this.description = null; 
   }
 
 
-  handleSaveDescription( event ) {
+  handleSaveDescription = ( event ) => {
 
     event.preventDefault();
     this.props.actions.saveDescription(this.props.mainItem.id, this.description.value) // this.props.addTodo(this.state.inputText)
   }
 
+
+  @readonly
   showDescription( desc ) {
 
    //this.setState({ description: desc });
@@ -45,38 +63,65 @@ class App extends Component {
     this.setState({ description: this.description.value});
   }
 
+  componentDidMount = async () => {
+    
+    const resp = await fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
+    const json = await resp.json();
+    this.setState( { img_url: json.data.image_original_url});
+  }
+
   render() {
+
+
+    console.log( this.state === null ? "no state" : this.state.img_url)
 
     //this.description.value = this.props.mainItem.description;
     //ref = {node => {this.description = node}} 
     //<button type="button" className="btn btn-success btn-md" onClick={this.handleLoadDbData.bind(this)}>Podrap Asie...</button>
+    // let {pathname} = this.props.location;
+    // console.log(pathname);
 
-    return (
-      <div className = "container">
-        <h1>Search Tree *Super Asia ~~>  M.E.R.N. example</h1>
+
+      // let result =  getGifData();
+      // console.log(result);//.data.image_original_url) 
+
+
+    var gifElement = [];
+    if(this.props.mainItem.description === '' && this.state !== null && this.state.img_url !== null) {
+       gifElement[0] = <img src={this.state.img_url}></img> 
+    } else {
+      gifElement = this.props.mainItem.description.split("\n").filter(line => line.slice(-4) === '.gif').map(line => <img src={ line }></img>);
+    }
+      
+
+    
+    return ( 
+      <div className = "container" id = "main-container">
+        <span className="logo"><h1>{ this.props.info }</h1></span>
+        <SearchInput addTodo = {this.props.actions.addTodo} loadSearchItems = {this.props.actions.loadSearchItems}/>
+        <SearchList todos = {this.props.todos} actions={this.props.actions}/>
 
         <MainItem
           item = { this.props.mainItem } 
           actions = { this.props.actions }
-          showDescription = { this.showDescription.bind(this) }
-        />
-        <SearchInput addTodo = {this.props.actions.addTodo} loadSearchItems = {this.props.actions.loadSearchItems}/>
-        <SearchList todos = {this.props.todos} actions={this.props.actions}/>
-
-        <div className="form-group">
-          <label for="comment">Comment:</label>
-          <textarea className="form-control" rows="5" id="comment" ref = {node => {this.description = node}} onChange = {this.handleTextChange.bind(this)} value = {this.props.mainItem.description}></textarea>
-          <button type="button" className="btn btn-success btn-md" onClick={this.handleSaveDescription.bind(this)}>Zapisz</button>
-        </div>
+          showDescription = { this.showDescription.bind(this) } 
+        /> 
+        <div className="form-container" id="content-form"> 
+          <label for="comment">Content:</label>
+          <textarea className = "app-info light" rows="5" ref = {node => {this.description = node}} onChange = {this.handleTextChange.bind(this)} value = {this.props.mainItem.description}></textarea>
+          <button type="button" className="btn btn-success" onClick={this.handleSaveDescription}>Zapisz</button>
+          {gifElement.map(line => line)}
+          
+        </div>        
       </div>
     )
   }
 }
-
+ 
 
 function mapStateToProps(state) {
 
-  return state
+  return { ...state, info: 'Search Tree *Super Asia ~~~>  M.E.R.N. example', img_url:'' };
 }
 
 // wraps all actions with dispatcher function and returns them
@@ -87,4 +132,4 @@ function mapDispatchToProps( dispatch ) {
   return {actions: bindActionCreators(actions, dispatch)} 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)  // connect App component

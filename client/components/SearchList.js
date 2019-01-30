@@ -23,20 +23,15 @@ class SearchList extends Component {
 
     return (
 
-      <div className="list-group mainList"> 
+      <div className="table frame form-container" id = "search-list"> 
       {
-
         ordered_set.map(( todo ) => {
 
-            return <SearchItem 
-            key = { todo.id } 
-            todo = { todo } 
-            t_id = {todo.completed ? 'toggled' : 'untoggled'}
-            actions = { this.props.actions }
-          />
+          return <SearchItem key = { todo.id } todo = { todo } t_id =  {todo.completed ? 'toggled' : 'untoggled'}
+          actions = { this.props.actions } />
         })
       }
-      </div>
+      </div> 
     )
   }
 }

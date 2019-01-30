@@ -1,5 +1,5 @@
 import  { applyMiddleware, compose, createStore, combineReducers} from 'redux'
-//import { thunk } from 'redux-thunk';
+
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { browserHistory } from 'react-router';
@@ -191,9 +191,11 @@ let  finalCreateStore = composedCreateStore( createStore )
 
 // main function to create store used in client.js
 // store is than propagated to components (App and childs) by Provider component
-let configureStore = function (initialState = { todos: [], user: {}, mainItem: {}}) {
+let configureStore = function (initialState = {img_url: '', todos: [], user: {}, mainItem: {}}) {
 
 	return finalCreateStore(mainReducer, initialState)
 }
+
+//export default createStoreWithMiddleware(reducers); 
 
 export default configureStore

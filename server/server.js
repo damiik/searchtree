@@ -1,6 +1,4 @@
-"use strict";
-
-var express = require('express');
+let express = require('express');
 
 var path = require('path');
 
@@ -21,7 +19,8 @@ mongoose.connect(data.data.mongodb, function (err) {
   if (err) console.log('MongoDB connection error', err);else {
     console.log(' ');
   }
-}); // Serve the static files from the React app
+});
+mongoose.set('useFindAndModify', false); // Serve the static files from the React app
 
 app.use(express.static(path.resolve('./client/dist'))); // . IS DIRECTORY from which you RUN the node command   
 //app.use(express.static(__dirname)) // server DIRECTORY
@@ -137,7 +136,7 @@ function normalizePort(val) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
+    // named pipe 
     return val;
   }
 

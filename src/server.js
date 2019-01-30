@@ -20,6 +20,8 @@ mongoose.connect(data.data.mongodb, function(err) {
     }
 });
 
+mongoose.set('useFindAndModify', false);
+
    
 // Serve the static files from the React app
 app.use(express.static(path.resolve('./client/dist'))); // . IS DIRECTORY from which you RUN the node command   
@@ -162,7 +164,7 @@ function normalizePort(val) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
+    // named pipe 
     return val;
   }
 

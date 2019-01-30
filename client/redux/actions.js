@@ -1,7 +1,7 @@
 // Actions creators functions - used in App.js, actions functions are binded to App class
 // Actions creators functions have to be used in components by props from App class:
 // only binded versions of this functions can dispatch actions!
-
+// DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
 let actions = {
 
   addTodo: ( text, id = -1 ) => {
@@ -38,7 +38,7 @@ let actions = {
       }).catch(error => console.log('Request failed', error));
     }
   },
-
+/////////////////////// delete
   deleteTodo: ( id ) => {
 
     return ( dispatch ) => {
@@ -55,7 +55,7 @@ let actions = {
       })
       .then(res => res.json()).then(res => {
         
-        //console.log(">>DELETE: " + JSON.stringify(res, null, 2));
+        console.log(">>DELETE: " + JSON.stringify(res, null, 2));
         dispatch({
 
            type: 'DELETE_TODO',
@@ -250,6 +250,7 @@ let actions = {
     }
   },
   
+
   showDescription: ( desc ) => {
 
     return {

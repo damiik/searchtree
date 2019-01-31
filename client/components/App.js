@@ -65,9 +65,10 @@ class App extends Component {
 
   componentDidMount = async () => {
     
-    const resp = await fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
+    const resp = await fetch('/gif');
     const json = await resp.json();
-    this.setState( { img_url: json.data.image_original_url});
+    console.log(json)
+    this.setState( { img_url: json.img_url});
   }
 
   render() {

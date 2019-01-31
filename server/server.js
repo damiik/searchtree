@@ -13,6 +13,8 @@ var notes = require('./routes/notes');
 var data = require('../data.js'); // REQUIRE BASE ON LOCAL DIRECTORY (here server.js directory)
 
 
+var fetch = require('node-fetch');
+
 var app = express();
 console.log("mongodb:" + data.data.mongodb);
 mongoose.connect(data.data.mongodb, function (err) {
@@ -69,6 +71,20 @@ app.use(bodyParser.urlencoded({
 
 app.use(methodOverride());
 app.use('/notes', notes);
+
+let getGif = async () => {
+  const resp = await fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
+  const json = await resp.json();
+  return {
+    img_url: json.data.image_original_url
+  };
+};
+
+app.use('/gif', function (req, res) {
+  getGif().then(gif => {
+    res.send(gif); // . IS DIRECTORY from which you RUN the node command    
+  });
+});
 app.use('/', function (req, res) {
   res.sendFile(path.resolve('./client/dist/index.html')); // . IS DIRECTORY from which you RUN the node command 
 });

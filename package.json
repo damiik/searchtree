@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
+    "@babel/runtime": "^7.3.1",
     "babel-loader": "^8.0.5",
     "body-parser": "",
     "browser-sync": "",
@@ -43,6 +44,7 @@
     "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
     "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-react": "^7.0.0",
     "browser-sync": "",

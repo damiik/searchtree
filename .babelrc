@@ -1,6 +1,7 @@
-
+// needed for server sources compile, repeated webpack.config.js options
 {
     "presets": [
       "@babel/preset-env",  "@babel/preset-react"
-    ]
+    ],
+    "plugins": ["@babel/plugin-transform-runtime"]
 }

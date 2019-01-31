@@ -1,4 +1,10 @@
-let express = require('express');
+"use strict";
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var express = require('express');
 
 var path = require('path');
 
@@ -72,16 +78,46 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride());
 app.use('/notes', notes);
 
-let getGif = async () => {
-  const resp = await fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
-  const json = await resp.json();
-  return {
-    img_url: json.data.image_original_url
+var getGif =
+/*#__PURE__*/
+function () {
+  var _ref = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee() {
+    var resp, json;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
+
+          case 2:
+            resp = _context.sent;
+            _context.next = 5;
+            return resp.json();
+
+          case 5:
+            json = _context.sent;
+            return _context.abrupt("return", {
+              img_url: json.data.image_original_url
+            });
+
+          case 7:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function getGif() {
+    return _ref.apply(this, arguments);
   };
-};
+}();
 
 app.use('/gif', function (req, res) {
-  getGif().then(gif => {
+  getGif().then(function (gif) {
     res.send(gif); // . IS DIRECTORY from which you RUN the node command    
   });
 });

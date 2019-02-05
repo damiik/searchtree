@@ -30,38 +30,29 @@ let todoReducer = function (todos = [], action) {
 				connected_notes: action.connected_notes,
 				completed: action.completed, 
 				description: action.description
-			}, ...todos]
+			}, ...todos];
+
 
 		case 'TOGGLE_TODO':
-			// return Object.assign({}, state, { // make new object here
-			// 	todos: state.todos.map((todo) => {return todo.id === action.id ? Object.assign({}, todo, {completed: !todo.completed}) : todo})
-			// })
+
 			return todos.map((todo) => {
 
-				return todo.id === action.id ? 
-					Object.assign({}, todo, {completed: action.on}) 
-					: todo
-			})		
+				return todo.id === action.id ? {...todo, completed: action.on} : todo;
+			});
+
 
 		case 'UPDATE_DESCRIPTION':
 
 			return todos.map((todo) => {
 
-				return todo.id === action.id ? 
-					Object.assign({}, todo, {description: action.desc}) 
-					: todo
-			})
+				return todo.id === action.id ? {...todo, description: action.desc} : todo;
+			});
 
 
-
-		case 'DELETE_TODO':
-			// return todos: state.todos.filter((todo) => {return todo.id !== action.id})
-			// })
-			return todos.filter((todo) => {return todo.id !== action.id})
+		case 'DELETE_TODO': return todos.filter((todo) => {return todo.id !== action.id});
 
 		// default: return state;
 		default: return todos;
-
 	}
 }
 
@@ -77,7 +68,8 @@ let mainItemReducer = function (mainItem = {}, action) {
 				id: action.item.id, 
 				connected_notes: action.item.connected_notes,
 				description: action.item.description,
-				search_text: mainItem.text                       // put to search text old mainItem text
+				search_text: mainItem.text,                       // put to search text old mainItem text
+				//img_url: mainItem.img_url
 			};
 
 		case 'UPDATE_MAIN_ITEM':
@@ -88,7 +80,8 @@ let mainItemReducer = function (mainItem = {}, action) {
 				id: mainItem.id, 
 				connected_notes: mainItem.connected_notes,
 				description: mainItem.description,
-				search_text: mainItem.search_text
+				search_text: mainItem.search_text,                       // put to search text old mainItem text
+				//img_url: mainItem.img_url
 			};
 		//return { ...mainItem, text: action.text };  // todo: not work - ES7 (experimental)
 
@@ -101,14 +94,14 @@ let mainItemReducer = function (mainItem = {}, action) {
 				id: mainItem.id, 
 				description: mainItem.description, 
 				connected_notes: [...mainItem.connected_notes, action.id],
-				search_text: mainItem.search_text
+				search_text: mainItem.search_text,                       // put to search text old mainItem text
+				//img_url: mainItem.img_url
 			};
 
 			//return {...mainItem, connected_notes: [...mainItem.connected_notes, action.id]};  // todo: not work - ES7 (experimental)
 
 
 		case 'DEL_CONNECTED_ITEM': // connected array veryfied already, remove current item id from mainItem connected items array
-
 
 			return {
 			
@@ -117,9 +110,11 @@ let mainItemReducer = function (mainItem = {}, action) {
 				id: mainItem.id, 
 				description: mainItem.description, 
 				connected_notes: mainItem.connected_notes.filter(( item_id ) => {return item_id !== action.id}),
-				search_text: mainItem.search_text
+				search_text: mainItem.search_text,                       // put to search text old mainItem text
+				//img_url: mainItem.img_url
 			};
 
+			
 		case 'CHANGE_SEARCH_TEXT': // connected array veryfied already, remove current item id from mainItem connected items array
 
 			return {
@@ -129,7 +124,8 @@ let mainItemReducer = function (mainItem = {}, action) {
 				id: mainItem.id, 
 				description: mainItem.description, 
 				connected_notes: mainItem.connected_notes,
-				search_text: action.search_text
+				search_text: action.search_text,                       // put to search text old mainItem text
+				//img_url: mainItem.img_url
 			};
 
 
@@ -142,7 +138,8 @@ let mainItemReducer = function (mainItem = {}, action) {
 				id: mainItem.id, 
 				description: action.desc, 
 				connected_notes: mainItem.connected_notes,
-				search_text: mainItem.search_text
+				search_text: mainItem.search_text,                       // put to search text old mainItem text
+				//img_url: mainItem.img_url
 			};
 
 
@@ -188,10 +185,9 @@ let composedCreateStore = compose( middleware );  // thunk for async dispatch
 
 let  finalCreateStore = composedCreateStore( createStore )
 
-
 // main function to create store used in client.js
 // store is than propagated to components (App and childs) by Provider component
-let configureStore = function (initialState = {img_url: '', todos: [], user: {}, mainItem: {}}) {
+let configureStore = function (initialState = {todos: [], user: {}, mainItem: {}}) {
 
 	return finalCreateStore(mainReducer, initialState)
 }

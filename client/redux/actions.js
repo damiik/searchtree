@@ -2,6 +2,46 @@
 // Actions creators functions have to be used in components by props from App class:
 // only binded versions of this functions can dispatch actions!
 // DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
+
+/* Mongo document:
+{
+    "_id" : ObjectId("5c53779297d2c87507ca8ce6"),
+    "completed" : false,
+    "connected_notes" : [ 
+        "5c520cabd46b605bbb96a191"
+    ],
+    "note" : "tu-lezy-pies",
+    "description" : "https://media2.giphy.com/media/l2QZWlQlPoWAPqi9G/giphy.gif",
+    "updated_at" : ISODate("2019-01-31T22:32:50.133Z"),
+    "__v" : 0
+}
+*/
+
+// STORE: {todos: [], user: {}, mainItem: {}}
+
+/* todos:
+
+  type: 'ADD_TODO',
+  text: curr_item.note,
+  id: curr_item._id,
+  description: curr_item.description ? curr_item.description : '',
+  connected_notes: curr_item.connected_notes,
+  completed: false
+
+*/
+
+/* mainItem
+
+  text: action.item.text, 
+  completed: action.item.completed, 
+  id: action.item.id, 
+  connected_notes: action.item.connected_notes,
+  description: action.item.description,
+  search_text: mainItem.text,                       // put to search text old mainItem text
+        
+*/
+
+
 let actions = {
 
   addTodo: ( text, id = -1 ) => {
@@ -396,7 +436,6 @@ let actions = {
   // }
 
 
-
   changeMainItem: ( item ) => {
 
     return (dispatch, getState) => {
@@ -440,7 +479,8 @@ let actions = {
                 id: curr_item._id,
                 description: curr_item.description ? curr_item.description : '',
                 connected_notes: curr_item.connected_notes,
-                completed: inConnected
+                completed: inConnected,
+                // img_url: ''
               })
             }
             else if(inTodos && !inConnected && !inSearch) {

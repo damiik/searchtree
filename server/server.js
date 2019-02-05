@@ -27,7 +27,7 @@ var app = express();
 console.log("mongodb:" + data.data.mongodb);
 mongoose.connect(data.data.mongodb, function (err) {
   if (err) console.log('MongoDB connection error', err);else {
-    console.log(' ');
+    console.log('MongoDB connected.');
   }
 });
 mongoose.set('useFindAndModify', false); // Serve the static files from the React app
@@ -85,14 +85,14 @@ var getGif =
 function () {
   var _ref = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee() {
+  _regenerator.default.mark(function _callee(topic) {
     var resp, json;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
+            return fetch("http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=" + topic + "&rating=pg-13");
 
           case 2:
             resp = _context.sent;
@@ -113,17 +113,17 @@ function () {
     }, _callee, this);
   }));
 
-  return function getGif() {
+  return function getGif(_x) {
     return _ref.apply(this, arguments);
   };
 }();
 
-app.use('/gif', function (req, res) {
-  getGif().then(function (gif) {
+app.use('/gif/:topic', function (req, res) {
+  getGif(req.params.topic).then(function (gif) {
     res.send(gif); // . IS DIRECTORY from which you RUN the node command    
   });
 });
-app.use('/', function (req, res) {
+app.use('*', function (req, res) {
   res.sendFile(path.resolve('./client/dist/index.html')); // . IS DIRECTORY from which you RUN the node command 
 });
 var port = normalizePort(process.env.PORT || '3001');

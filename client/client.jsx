@@ -1,8 +1,15 @@
 import React from 'react'
 import { render } from 'react-dom'
-import App from './components/App'
 import configureStore from './redux/store'
 import  { Provider } from 'react-redux'
+import {
+	BrowserRouter as Router,
+	Route,
+	Link
+} from 'react-router-dom';
+
+import App from './components/App'
+import About from './components/About'
 
 import './style.scss'
 
@@ -15,7 +22,7 @@ let initialState = {
 	// 	completed: false,
 	// 	text: 'Initial todo for demo purposes'
 	// }],
-	img_url: '',
+	// img_url: '',
 	todos: [],
 	mainItem: {
 
@@ -37,9 +44,18 @@ let store = configureStore( initialState );
 
 render( 
 
-   <Provider store = { store }>
-   	 <App/>
-   </Provider>,
-   document.getElementById('app')
+	<Provider store = { store }>	
+		<Router  basename="/">
+			<div className="container">
+				<Route path="/app/:noteid" component={App} />
+				<Route exact path="/app" component={App} />
+				<Route path="/about" component={About} />
+			</div> 
+		</Router>
+	</Provider>
+	,
+    document.getElementById('app')
 )
-module.hot.accept();
+module.hot.accept();	
+
+/* <Route path="/about" component={About} /> */

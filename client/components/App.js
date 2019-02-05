@@ -5,7 +5,7 @@ import MainItem from './MainItem'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import actions from '../redux/actions'
-import store from '../redux/store'
+// import store from '../redux/store'
 
 function readonly(target, name, descriptor) {
 
@@ -25,17 +25,10 @@ class App extends Component {
 
     // I also use text_input class attribute 
     // I have to clear input after action is created, is simpler to do that this way
-    // this.state = {
-    //   img_url: null  
-    // };
-    // store.subscribe(() => {
-    //   // When state will be updated(in our case, when items will be fetched), 
-    //   // we will update local component state and force component to rerender 
-    //   // with new data.
+    this.state = {
+      img_url: null
+    };
 
-    //   this.setState({img_url: store.getState().img_url });
-    // });
-    // this attribute is set later by ref: ref = {node => {this.text_input = node}}
     this.description = null; 
   }
 
@@ -48,7 +41,7 @@ class App extends Component {
 
 
   @readonly
-  showDescription( desc ) {
+  showDescription( desc ) { 
 
    //this.setState({ description: desc });
     //this.description = desc;
@@ -65,7 +58,9 @@ class App extends Component {
 
   componentDidMount = async () => {
     
-    const resp = await fetch('/gif');
+
+
+    const resp = await fetch('/gif/'+ this.props.match.params.noteid);  // eq.: /gif/cats if noteid="cats"
     const json = await resp.json();
     console.log(json)
     this.setState( { img_url: json.img_url});
@@ -83,20 +78,23 @@ class App extends Component {
     // console.log(pathname);
 
 
-      // let result =  getGifData();
-      // console.log(result);//.data.image_original_url) 
+    // let result =  getGifData();
+    // console.log(result);//.data.image_original_url) 
 
-
+    // to add: youtube
     var gifElement = [];
     if(this.props.mainItem.description === '' && this.state !== null && this.state.img_url !== null) {
-       gifElement[0] = <img src={this.state.img_url}></img> 
+
+      gifElement[0] = <img src={this.state.img_url}></img>
     } else {
+
       gifElement = this.props.mainItem.description.split("\n").filter(line => line.slice(-4) === '.gif').map(line => <img src={ line }></img>);
     }
       
 
     
     return ( 
+
       <div className = "container" id = "main-container">
         <span className="logo"><h1>{ this.props.info }</h1></span>
         <SearchInput addTodo = {this.props.actions.addTodo} loadSearchItems = {this.props.actions.loadSearchItems}/>
@@ -105,13 +103,13 @@ class App extends Component {
         <MainItem
           item = { this.props.mainItem } 
           actions = { this.props.actions }
-          showDescription = { this.showDescription.bind(this) } 
+          showDescription = { this.showDescription.bind(this) }
         /> 
         <div className="form-container" id="content-form"> 
-          <label for="comment">Content:</label>
+          <label for="comment">{"Content:" + this.props.match.params.noteid}</label>
           <textarea className = "app-info light" rows="5" ref = {node => {this.description = node}} onChange = {this.handleTextChange.bind(this)} value = {this.props.mainItem.description}></textarea>
           <button type="button" className="btn btn-success" onClick={this.handleSaveDescription}>Zapisz</button>
-          {gifElement.map(line => line)}
+          { gifElement.map(line => line) }
           
         </div>        
       </div>
@@ -122,7 +120,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
 
-  return { ...state, info: 'Search Tree *Super Asia ~~~>  M.E.R.N. example', img_url:'' };
+  return { ...state, info: 'Search Tree *Super Asia ~~~>  M.E.R.N. example' };  // info is not a state!
 }
 
 // wraps all actions with dispatcher function and returns them

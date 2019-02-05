@@ -17,7 +17,7 @@ mongoose.connect(data.data.mongodb, function(err) {
     if( err ) console.log('MongoDB connection error', err);
     else {
 
-        console.log(' ');
+        console.log('MongoDB connected.');
     }
 });
 
@@ -80,17 +80,17 @@ app.use(methodOverride());
 
 app.use('/notes', notes);
 
-let getGif = async () => {
+let getGif = async (topic) => {
     
-  const resp = await fetch('http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=funny&rating=pg-13');
+  const resp = await fetch("http://api.giphy.com/v1/gifs/random?api_key=jcuPMIV6PGmOgWkzpRkNuz5r3jZLTGfO&tag=" + topic + "&rating=pg-13");
   const json = await resp.json();
   return { img_url: json.data.image_original_url};
 }
 
 
-app.use('/gif', function (req, res) {
+app.use('/gif/:topic', function (req, res) {
 
-  getGif().then (gif => {
+  getGif(req.params.topic).then (gif => {
 
    res.send(gif);// . IS DIRECTORY from which you RUN the node command    
   })
@@ -98,7 +98,7 @@ app.use('/gif', function (req, res) {
 });
 
 
-app.use('/', function (req, res) {
+app.use('*', function (req, res) {
 
     res.sendFile(path.resolve('./client/dist/index.html'));// . IS DIRECTORY from which you RUN the node command 
 });

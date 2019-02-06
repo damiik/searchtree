@@ -52,7 +52,7 @@ class MainItem extends Component {
     return (
 
       <form className = 'form-container frame' id = 'book-form' onSubmit={this.handleSubmit.bind(this)}> 
-            <label className = "form-label" for="mainItem">Note:</label>
+            <label className = "form-label">Note:</label>
             <input className = "form-value" id = "mainItem" type = "text" placeholder = "???"
               ref = {node => {this.text_input = node}}
               value = {this.props.item.text} 

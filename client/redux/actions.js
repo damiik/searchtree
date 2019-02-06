@@ -283,6 +283,7 @@ let actions = {
 
   updateMainItem: ( text ) => {
 
+    console.log("actions.js - updateMainItem:" + text)
     return {
 
       type: 'UPDATE_MAIN_ITEM',
@@ -304,6 +305,7 @@ let actions = {
   createNewUserId: () => {
 
     return {
+
       type: 'CREATE_USER_ID',
       id: Math.round(Math.random() * 100)
     }

@@ -58,8 +58,6 @@ class App extends Component {
 
   componentDidMount = async () => {
     
-
-
     const resp = await fetch('/gif/'+ this.props.match.params.noteid);  // eq.: /gif/cats if noteid="cats"
     const json = await resp.json();
     console.log(json)
@@ -106,7 +104,7 @@ class App extends Component {
           showDescription = { this.showDescription.bind(this) }
         /> 
         <div className="form-container" id="content-form"> 
-          <label for="comment">{"Content:" + this.props.match.params.noteid}</label>
+          <label>{"Content:" + this.props.match.params.noteid}</label>
           <textarea className = "app-info light" rows="5" ref = {node => {this.description = node}} onChange = {this.handleTextChange.bind(this)} value = {this.props.mainItem.description}></textarea>
           <button type="button" className="btn btn-success" onClick={this.handleSaveDescription}>Zapisz</button>
           { gifElement.map(line => line) }
@@ -120,7 +118,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
 
-  return { ...state, info: 'Search Tree *Super Asia ~~~>  M.E.R.N. example' };  // info is not a state!
+  return { ...state, info: 'Search Tree ~~~> Asia Asiula 2019' };  // info is not a state!
 }
 
 // wraps all actions with dispatcher function and returns them

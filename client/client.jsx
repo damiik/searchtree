@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import configureStore from './redux/store'
 import  { Provider } from 'react-redux'
 import {
 	BrowserRouter as Router,
@@ -8,6 +7,15 @@ import {
 	Link
 } from 'react-router-dom';
 
+import  { applyMiddleware, compose, createStore, combineReducers} from 'redux'
+import thunk from 'redux-thunk'
+import { createLogger } from 'redux-logger'
+// import { browserHistory } from 'react-router';
+// import { routerMiddleware } from 'react-router-redux';
+
+import todoReducer from './redux/todoReducer'
+import userReducer from './redux/userReducer'
+import mainItemReducer from './redux/mainItemReducer'
 import App from './components/App'
 import About from './components/About'
 
@@ -38,13 +46,13 @@ let initialState = {
 	}
 }
 
-
-
-let store = configureStore( initialState );
+// combine reducers to create mainReducer
+const mainReducer = combineReducers({todos: todoReducer, user: userReducer, mainItem: mainItemReducer})
+const middleware = applyMiddleware(thunk, createLogger({collapsed:true}))//, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 render( 
 
-	<Provider store = { store }>	
+	<Provider store = { compose( middleware )( createStore )(mainReducer, initialState) }>
 		<Router  basename="/">
 			<div className="container">
 				<Route path="/app/:noteid" component={App} />
@@ -57,5 +65,3 @@ render(
     document.getElementById('app')
 )
 module.hot.accept();	
-
-/* <Route path="/about" component={About} /> */

@@ -1,6 +1,6 @@
 # searchtree
 ## MERN React-Redux 
-Project inspared by **Basic App Setup | React + Redux + Webpack** Kurt Weiberth video https://www.youtube.com/watch?v=CAZZN1gOjoI&nohtml5=
+Project inspired by **Basic App Setup | React + Redux + Webpack** Kurt Weiberth video https://www.youtube.com/watch?v=CAZZN1gOjoI&nohtml5=
 
 I added MongoDB and Mongoose to Express.js server.
 Express server serve client inxex.html file so proxy server in package.json is not used here. 
@@ -15,7 +15,7 @@ Express server serve client inxex.html file so proxy server in package.json is n
  * Babel 7.2.3 (@babel/core 7.2.2) (server and client side)
 
 
-### DEPLOY:
+### TO DEPLOY:
 
     yarn build-server
     yarn postinstall
